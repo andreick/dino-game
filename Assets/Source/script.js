@@ -1,9 +1,10 @@
 const dino = document.querySelector(".dino");
 const background = document.querySelector(".background");
+let isRunning = true;
 let isJumping = false;
 let dinoPositionY = 0;
 
-const jump = () => {
+function jump() {
     isJumping = true;
 
     let upInterval = setInterval(() => {
@@ -31,7 +32,8 @@ const jump = () => {
     }, 20);
 }
 
-const createCactus = () => {
+function createCactus() {
+
     const cactus = document.createElement("div");
     let cactusPosition = 1000;
     let randomTime = Math.random() * 6000;
@@ -56,16 +58,19 @@ const createCactus = () => {
         }
     }, 20)
 
-    setTimeout(createCactus, randomTime);
+    setTimeout(() => {
+        if (isRunning) {
+            createCactus();
+        }
+    }, randomTime);
 }
 
-const handleKeyDown = event => {
-    if (event.keyCode === 32) {
+createCactus();
+
+document.addEventListener("keydown", event => {
+    if (event.key === " ") {
         if (!isJumping) {
             jump();
         }
     }
-}
-
-createCactus();
-document.addEventListener("keydown", handleKeyDown);
+});
