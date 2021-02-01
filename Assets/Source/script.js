@@ -1,5 +1,7 @@
 const dino = document.querySelector(".dino");
 const background = document.querySelector(".background");
+const gameOver = document.querySelector("#game-over");
+let keyPressed = false;
 let isRunning = false;
 let isJumping;
 let dinoPositionY;
@@ -13,6 +15,8 @@ function start() {
         background.removeChild(background.lastChild);
     }
     background.style.webkitAnimationPlayState = "running";
+
+    gameOver.innerHTML = ""
 
     isRunning = true;
     setTimeout(createCactus, 1000);
@@ -78,9 +82,10 @@ function createCactus() {
             clearInterval(leftInterval);
             isRunning = false;
             background.style.webkitAnimationPlayState = "paused";
+            gameOver.innerHTML = "<h2>FIM DE JOGO</h2>";
         }
         else {
-            cactusPosition -= 5;
+            cactusPosition -= 10;
             cactus.style.left = cactusPosition + "px";
         }
     }, 20)
@@ -89,15 +94,29 @@ function createCactus() {
 }
 
 document.addEventListener("keyup", event => {
-    if (!isRunning && event.key === " ") {
-        start();
+
+    if (!isRunning) {
+
+        if (event.key === " " && !keyPressed) {
+            start();
+        }
+
+        keyPressed = false;
     }
+    
 });
 
 document.addEventListener("keydown", event => {
-    if (isRunning && event.key === " ") {
-        if (!isJumping) {
-            jump();
+
+    if (isRunning) {
+
+        if (event.key === " ") {
+
+            keyPressed = true;
+
+            if (!isJumping) {
+                jump();
+            }
         }
     }
 });
