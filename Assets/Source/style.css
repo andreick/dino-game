@@ -46,4 +46,5 @@ body {
     animation: slideRight 600s infinite linear;
     width: 1000px;
     height: 200px;
+    animation-play-state: paused;
 }

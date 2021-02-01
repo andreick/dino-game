@@ -1,21 +1,41 @@
 const dino = document.querySelector(".dino");
 const background = document.querySelector(".background");
-let isRunning = true;
-let isJumping = false;
-let dinoPositionY = 0;
+let isRunning = false;
+let isJumping;
+let dinoPositionY;
+
+function start() {
+    isJumping = false;
+    dinoPositionY = 0;
+    dino.style.bottom = dinoPositionY + "px";
+
+    while (background.lastChild !== dino) {
+        background.removeChild(background.lastChild);
+    }
+    background.style.webkitAnimationPlayState = "running";
+
+    isRunning = true;
+    setTimeout(createCactus, 1000);
+}
 
 function jump() {
     isJumping = true;
 
     let upInterval = setInterval(() => {
 
-        if (dinoPositionY >= 150) {
+        if (!isRunning) {
+            clearInterval(upInterval);
+        }
+        else if (dinoPositionY >= 150) {
 
             clearInterval(upInterval);
 
             let downInterval = setInterval(() => {
 
-                if (dinoPositionY <= 0) {
+                if (!isRunning) {
+                    clearInterval(downInterval);
+                }
+                else if (dinoPositionY <= 0) {
                     clearInterval(downInterval);
                     isJumping = false;
                 }
@@ -44,13 +64,17 @@ function createCactus() {
 
     let leftInterval = setInterval(() => {
 
-        if (cactusPosition <= -60) {
+        if (!isRunning) {
+            clearInterval(leftInterval);
+        }
+        else if (cactusPosition <= -60) {
             clearInterval(leftInterval);
             background.removeChild(cactus);
         }
-        else if (cactusPosition > 0 && cactusPosition < 60 && dinoPositionY < 60) {
+        else if (cactusPosition > 30 && cactusPosition < 90 && dinoPositionY < 60) {
             clearInterval(leftInterval);
-            document.body.innerHTML = '<h1 class="game-over">Fim de jogo</h1>';
+            isRunning = false;
+            background.style.webkitAnimationPlayState = "paused";
         }
         else {
             cactusPosition -= 10;
@@ -58,17 +82,23 @@ function createCactus() {
         }
     }, 20)
 
-    setTimeout(() => {
-        if (isRunning) {
-            createCactus();
-        }
-    }, randomTime);
+    if (isRunning) {
+        setTimeout(() => {
+            if (isRunning) {
+                createCactus();
+            }
+        }, randomTime);
+    }
 }
 
-createCactus();
+document.addEventListener("keyup", event => {
+    if (!isRunning && event.key === " ") {
+        start();
+    }
+});
 
 document.addEventListener("keydown", event => {
-    if (event.key === " ") {
+    if (isRunning && event.key === " ") {
         if (!isJumping) {
             jump();
         }
