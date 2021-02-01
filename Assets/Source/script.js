@@ -3,14 +3,6 @@ const background = document.querySelector(".background");
 let isJumping = false;
 let dinoPositionY = 0;
 
-const handleKeyUp = event => {
-    if (event.keyCode === 32) {
-        if (!isJumping) {
-            jump();
-        }
-    }
-}
-
 const jump = () => {
     isJumping = true;
 
@@ -67,5 +59,13 @@ const createCactus = () => {
     setTimeout(createCactus, randomTime);
 }
 
+const handleKeyDown = event => {
+    if (event.keyCode === 32) {
+        if (!isJumping) {
+            jump();
+        }
+    }
+}
+
 createCactus();
-document.addEventListener("keyup", handleKeyUp);
+document.addEventListener("keydown", handleKeyDown);
