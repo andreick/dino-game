@@ -56,7 +56,8 @@ function createCactus() {
 
     const cactus = document.createElement("div");
     let cactusPosition = 1000;
-    let randomTime = Math.random() * 6000;
+    let randomTime = Math.random() * (3250 - 750) + 750;
+    console.log(randomTime);
 
     cactus.classList.add("cactus");
     cactus.style.left = 1000 + "px";
@@ -65,30 +66,26 @@ function createCactus() {
     let leftInterval = setInterval(() => {
 
         if (!isRunning) {
+            clearTimeout(spawn);
             clearInterval(leftInterval);
         }
         else if (cactusPosition <= -60) {
             clearInterval(leftInterval);
             background.removeChild(cactus);
         }
-        else if (cactusPosition > 30 && cactusPosition < 90 && dinoPositionY < 60) {
+        else if (cactusPosition >= 30 && cactusPosition <= 90 && dinoPositionY <= 60) {
+            clearTimeout(spawn);
             clearInterval(leftInterval);
             isRunning = false;
             background.style.webkitAnimationPlayState = "paused";
         }
         else {
-            cactusPosition -= 10;
+            cactusPosition -= 5;
             cactus.style.left = cactusPosition + "px";
         }
     }, 20)
 
-    if (isRunning) {
-        setTimeout(() => {
-            if (isRunning) {
-                createCactus();
-            }
-        }, randomTime);
-    }
+    let spawn = setTimeout(createCactus, randomTime);
 }
 
 document.addEventListener("keyup", event => {
