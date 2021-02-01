@@ -1,10 +1,14 @@
 const dino = document.querySelector(".dino");
 const background = document.querySelector(".background");
 const gameOver = document.querySelector("#game-over");
+const restart = document.querySelector("#restart");
 let keyPressed = false;
 let isRunning = false;
 let isJumping;
 let dinoPositionY;
+
+let jumpSpeed = 12;
+const cacti = ["cactus1", "cactus2", "cactus3", "cactus4", "cactus1", "cactus2", "cactus3"];
 
 function start() {
     isJumping = false;
@@ -17,6 +21,8 @@ function start() {
     background.style.webkitAnimationPlayState = "running";
 
     gameOver.innerHTML = ""
+
+    restart.style.visibility = "hidden";
 
     isRunning = true;
     setTimeout(createCactus, 1000);
@@ -44,13 +50,13 @@ function jump() {
                     isJumping = false;
                 }
                 else {
-                    dinoPositionY -= 20;
+                    dinoPositionY -= jumpSpeed;
                     dino.style.bottom = dinoPositionY + "px";
                 }
             }, 20);
         }
         else {
-            dinoPositionY += 20;
+            dinoPositionY += jumpSpeed;
             dino.style.bottom = dinoPositionY + "px";
         }
     }, 20);
@@ -58,14 +64,16 @@ function jump() {
 
 function createCactus() {
 
-    const cactus = document.createElement("div");
-    let cactusPosition = 1000;
-    let randomTime = Math.random() * (3250 - 750) + 750;
-    console.log(randomTime);
+    let cactusPositionX = 1000;
+    randomCactus = cacti[Math.floor(Math.random() * cacti.length)];
 
-    cactus.classList.add("cactus");
-    cactus.style.left = 1000 + "px";
+    const cactus = document.createElement("div");
+    cactus.classList.add(randomCactus);
+    cactus.style.left = 1030 + "px";
     background.appendChild(cactus);
+    let cactusWidth = cactus.offsetWidth;
+    let dangerZoneX = 70 - cactusWidth;
+    let cactusHeight = cactus.offsetHeight;
 
     let leftInterval = setInterval(() => {
 
@@ -73,23 +81,25 @@ function createCactus() {
             clearTimeout(spawn);
             clearInterval(leftInterval);
         }
-        else if (cactusPosition <= -60) {
+        else if (cactusPositionX <= -cactusWidth) {
             clearInterval(leftInterval);
             background.removeChild(cactus);
         }
-        else if (cactusPosition >= 30 && cactusPosition <= 90 && dinoPositionY <= 60) {
+        else if (cactusPositionX <= 70 && dinoPositionY <= cactusHeight && cactusPositionX >= dangerZoneX) {
             clearTimeout(spawn);
             clearInterval(leftInterval);
             isRunning = false;
             background.style.webkitAnimationPlayState = "paused";
             gameOver.innerHTML = "<h2>FIM DE JOGO</h2>";
+            restart.style.visibility = "visible";
         }
         else {
-            cactusPosition -= 10;
-            cactus.style.left = cactusPosition + "px";
+            cactusPositionX -= 10;
+            cactus.style.left = cactusPositionX + "px";
         }
     }, 20)
 
+    let randomTime = Math.random() * (3000 - 500) + 500;
     let spawn = setTimeout(createCactus, randomTime);
 }
 
