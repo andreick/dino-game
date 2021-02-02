@@ -43,9 +43,9 @@ body {
     background-image: url(../Images/cactus4.png);
 }
 
-#game-start, #game-over {
+#game-start, .game-over {
     text-align: center;
-    font-family: 'Courier New', Courier, monospace;
+    font-family: 'Press Start 2P', 'Courier New', Courier, monospace;
 }
 
 #game-start {
@@ -55,26 +55,26 @@ body {
     letter-spacing: 15px;
 }
 
-#game-over {
+.game-over {
     color: #666666;
     margin-top: 10px;
     margin-bottom: 20px;
-    letter-spacing: 20px;
+    letter-spacing: 15px;
 }
 
 #restart {
     visibility: hidden;
     display: block;
     width: 50px;
-    margin-left: 44.7%;
+    margin-left: 44.5%;
     margin-top: 0;
 }
 
-#score {
+.score {
     text-align: right;
     color: #666666;
-    font-family: fantasy;
-    letter-spacing: 5px;
+    font-family: 'Press Start 2P', fantasy;
+    font-size: 14px;
     margin-top: 10px;
     margin-bottom: 0;
 }

@@ -1,14 +1,14 @@
 const dino = document.querySelector("#dino");
 const background = document.querySelector("#background");
 const gameStart = document.querySelector("#game-start");
-const gameOver = document.querySelector("#game-over");
+const gameOver = document.querySelector(".game-over");
 const restart = document.querySelector("#restart");
-const scoreElement = document.querySelector("#score");
+const scoreElement = document.querySelector(".score");
 let keyPressed = false;
 let isRunning = false;
 let isJumping;
 let dinoPositionY;
-let scoreInterval
+let scoreInterval;
 
 let spawnTimeMin;
 let spawnTimeMax;
@@ -17,25 +17,26 @@ let jumpSpeed = 12;
 const cacti = ["cactus1", "cactus2", "cactus3", "cactus4", "cactus1", "cactus2", "cactus3", "cactus1", "cactus2"];
 
 function start() {
-    isJumping = false;
-    dinoPositionY = 0;
-    dino.style.bottom = dinoPositionY + "px";
 
     while (background.lastChild !== dino) {
         background.removeChild(background.lastChild);
     }
 
+    isJumping = false;
+    dinoPositionY = 0;
     gameOver.innerHTML = "";
     restart.style.visibility = "hidden";
+    dino.style.bottom = dinoPositionY + "px";
     dino.style.backgroundImage = "url(../Images/dino.png)";
     background.style.webkitAnimationPlayState = "running";
 
     isRunning = true;
-    setTimeout(createCactus, 1000);
+    setTimeout(createCactus, 1500);
     startScore();
 }
 
 function jump() {
+
     isJumping = true;
     jumpSound.play();
 
@@ -73,7 +74,7 @@ function jump() {
 function createCactus() {
 
     let cactusPositionX = 1000;
-    randomCactus = cacti[Math.floor(Math.random() * cacti.length)];
+    let randomCactus = cacti[Math.floor(Math.random() * cacti.length)];
 
     const cactus = document.createElement("div");
     cactus.classList.add(randomCactus);
@@ -101,7 +102,7 @@ function createCactus() {
             deathSound.play();
             background.style.webkitAnimationPlayState = "paused";
             dino.style.backgroundImage = "url(../Images/dino-dead.png)";
-            gameOver.innerHTML = '<h2 id="game-over">FIM DE JOGO</h2>';
+            gameOver.innerHTML = '<h2 class="game-over">FIM DE JOGO</h2>';
             restart.style.visibility = "visible";
         }
         else {
@@ -116,7 +117,7 @@ function createCactus() {
 
 function startScore() {
     
-    scoreElement.innerHTML = '<p id="score">00000</p>';
+    scoreElement.innerHTML = '<p class="score">00000</p>';
     let score = 0;
     cactusSpeed = 10;
     spawnTimeMin = 500;
@@ -124,21 +125,19 @@ function startScore() {
 
     scoreInterval = setInterval(() => {
         score++;
-        scoreElement.innerHTML = '<p id="score">' + score.toString().padStart(5, "0") + '</p>';
+        scoreElement.innerHTML = '<p class="score">' + score.toString().padStart(5, "0") + '</p>';
 
         if (score % 100 === 0) {
             scoreSound.play();
             cactusSpeed++;
             spawnTimeMin -= 3;
             spawnTimeMax -= 3;
-            console.log(cactusSpeed);
-            console.log(spawnTimeMin);
-            console.log(spawnTimeMax);
         }
     }, 100);
 }
 
 class Sound {
+
     constructor(src) {
         this.sound = document.createElement("audio");
         this.sound.src = src;
@@ -146,15 +145,17 @@ class Sound {
         this.sound.setAttribute("controls", "none");
         this.sound.style.display = "none";
         document.body.appendChild(this.sound);
-        this.play = function () {
-            this.sound.play();
-        };
     }
+
+    play = function () {
+        this.sound.play();
+    };
 }
 
 let jumpSound = new Sound("../Audio/jump-sound-effect.mp3");
 let scoreSound = new Sound("../Audio/score-sound-effect.mp3");
 let deathSound = new Sound("../Audio/death-sound-effect.mp3");
+scoreSound.sound.volume = 0.3;
 
 document.addEventListener("keyup", event => {
 
@@ -163,7 +164,6 @@ document.addEventListener("keyup", event => {
         if (event.key === " " && !keyPressed) {
             start();
         }
-
         keyPressed = false;
     }
     
