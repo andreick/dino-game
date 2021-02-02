@@ -1,11 +1,15 @@
 const dino = document.querySelector(".dino");
 const background = document.querySelector(".background");
+const gameStart = document.querySelector("#game-start");
 const gameOver = document.querySelector("#game-over");
 const restart = document.querySelector("#restart");
+const scoreElement = document.querySelector("#score");
 let keyPressed = false;
 let isRunning = false;
 let isJumping;
 let dinoPositionY;
+let score;
+let scoreInterval
 
 let jumpSpeed = 12;
 const cacti = ["cactus1", "cactus2", "cactus3", "cactus4", "cactus1", "cactus2", "cactus3"];
@@ -18,14 +22,15 @@ function start() {
     while (background.lastChild !== dino) {
         background.removeChild(background.lastChild);
     }
-    background.style.webkitAnimationPlayState = "running";
 
-    gameOver.innerHTML = ""
-
+    gameOver.innerHTML = "";
     restart.style.visibility = "hidden";
+    dino.style.backgroundImage = "url(../Images/dino.png)";
+    background.style.webkitAnimationPlayState = "running";
 
     isRunning = true;
     setTimeout(createCactus, 1000);
+    startScore();
 }
 
 function jump() {
@@ -88,9 +93,11 @@ function createCactus() {
         else if (cactusPositionX <= 70 && dinoPositionY <= cactusHeight && cactusPositionX >= dangerZoneX) {
             clearTimeout(spawn);
             clearInterval(leftInterval);
+            clearInterval(scoreInterval);
             isRunning = false;
             background.style.webkitAnimationPlayState = "paused";
-            gameOver.innerHTML = "<h2>FIM DE JOGO</h2>";
+            dino.style.backgroundImage = "url(../Images/dino-dead.png)";
+            gameOver.innerHTML = '<h2 id="game-over">FIM DE JOGO</h2>';
             restart.style.visibility = "visible";
         }
         else {
@@ -101,6 +108,16 @@ function createCactus() {
 
     let randomTime = Math.random() * (3000 - 500) + 500;
     let spawn = setTimeout(createCactus, randomTime);
+}
+
+function startScore() {
+    
+    score = 0;
+
+    scoreInterval = setInterval(() => {
+        scoreElement.innerHTML = '<p id="score">' + score.toString().padStart(5, "0") + '</p>';
+        score++;
+    }, 100);
 }
 
 document.addEventListener("keyup", event => {
