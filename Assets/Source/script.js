@@ -1,5 +1,5 @@
-const dino = document.querySelector(".dino");
-const background = document.querySelector(".background");
+const dino = document.querySelector("#dino");
+const background = document.querySelector("#background");
 const gameStart = document.querySelector("#game-start");
 const gameOver = document.querySelector("#game-over");
 const restart = document.querySelector("#restart");
@@ -8,11 +8,13 @@ let keyPressed = false;
 let isRunning = false;
 let isJumping;
 let dinoPositionY;
-let score;
 let scoreInterval
 
+let spawnTimeMin;
+let spawnTimeMax;
+let cactusSpeed;
 let jumpSpeed = 12;
-const cacti = ["cactus1", "cactus2", "cactus3", "cactus4", "cactus1", "cactus2", "cactus3"];
+const cacti = ["cactus1", "cactus2", "cactus3", "cactus4", "cactus1", "cactus2", "cactus3", "cactus1", "cactus2"];
 
 function start() {
     isJumping = false;
@@ -41,7 +43,7 @@ function jump() {
         if (!isRunning) {
             clearInterval(upInterval);
         }
-        else if (dinoPositionY >= 150) {
+        else if (dinoPositionY >= 140) {
 
             clearInterval(upInterval);
 
@@ -101,22 +103,35 @@ function createCactus() {
             restart.style.visibility = "visible";
         }
         else {
-            cactusPositionX -= 10;
+            cactusPositionX -= cactusSpeed;
             cactus.style.left = cactusPositionX + "px";
         }
     }, 20)
 
-    let randomTime = Math.random() * (3000 - 500) + 500;
-    let spawn = setTimeout(createCactus, randomTime);
+    let spawnTime = Math.random() * (spawnTimeMax - spawnTimeMin) + spawnTimeMin;
+    let spawn = setTimeout(createCactus, spawnTime);
 }
 
 function startScore() {
     
-    score = 0;
+    scoreElement.innerHTML = '<p id="score">00000</p>';
+    let score = 0;
+    cactusSpeed = 10;
+    spawnTimeMin = 500;
+    spawnTimeMax = 2000;
 
     scoreInterval = setInterval(() => {
-        scoreElement.innerHTML = '<p id="score">' + score.toString().padStart(5, "0") + '</p>';
         score++;
+        scoreElement.innerHTML = '<p id="score">' + score.toString().padStart(5, "0") + '</p>';
+
+        if (score % 100 === 0) {
+            cactusSpeed++;
+            spawnTimeMin -= 3;
+            spawnTimeMax -= 3;
+            console.log(cactusSpeed);
+            console.log(spawnTimeMin);
+            console.log(spawnTimeMax);
+        }
     }, 100);
 }
 
