@@ -37,6 +37,7 @@ function start() {
 
 function jump() {
     isJumping = true;
+    jumpSound.play();
 
     let upInterval = setInterval(() => {
 
@@ -97,6 +98,7 @@ function createCactus() {
             clearInterval(leftInterval);
             clearInterval(scoreInterval);
             isRunning = false;
+            deathSound.play();
             background.style.webkitAnimationPlayState = "paused";
             dino.style.backgroundImage = "url(../Images/dino-dead.png)";
             gameOver.innerHTML = '<h2 id="game-over">FIM DE JOGO</h2>';
@@ -125,6 +127,7 @@ function startScore() {
         scoreElement.innerHTML = '<p id="score">' + score.toString().padStart(5, "0") + '</p>';
 
         if (score % 100 === 0) {
+            scoreSound.play();
             cactusSpeed++;
             spawnTimeMin -= 3;
             spawnTimeMax -= 3;
@@ -134,6 +137,24 @@ function startScore() {
         }
     }, 100);
 }
+
+class Sound {
+    constructor(src) {
+        this.sound = document.createElement("audio");
+        this.sound.src = src;
+        this.sound.setAttribute("preload", "auto");
+        this.sound.setAttribute("controls", "none");
+        this.sound.style.display = "none";
+        document.body.appendChild(this.sound);
+        this.play = function () {
+            this.sound.play();
+        };
+    }
+}
+
+let jumpSound = new Sound("../Audio/jump-sound-effect.mp3");
+let scoreSound = new Sound("../Audio/score-sound-effect.mp3");
+let deathSound = new Sound("../Audio/death-sound-effect.mp3");
 
 document.addEventListener("keyup", event => {
 
