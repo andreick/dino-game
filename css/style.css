@@ -7,7 +7,7 @@ body {
 #dino {
     width: 60px;
     height: 60px;
-    background-image: url(../Images/dino.png);
+    background-image: url(../images/dino.png);
     position: absolute;
     bottom: 0;
     left: 30px;
@@ -22,25 +22,25 @@ body {
 .cactus1 {
     width: 34px;
     height: 64px;
-    background-image: url(../Images/cactus1.png);
+    background-image: url(../images/cactus1.png);
 }
 
 .cactus2 {
     width: 59px;
     height: 58px;
-    background-image: url(../Images/cactus2.png);
+    background-image: url(../images/cactus2.png);
 }
 
 .cactus3 {
     width: 77px;
     height: 54px;
-    background-image: url(../Images/cactus3.png);
+    background-image: url(../images/cactus3.png);
 }
 
 .cactus4 {
     width: 95px;
     height: 48px;
-    background-image: url(../Images/cactus4.png);
+    background-image: url(../images/cactus4.png);
 }
 
 #game-start, .game-over {
@@ -92,7 +92,7 @@ body {
 #background {
     position: absolute;
     top: 50px;
-    background-image: url(../Images/background.png);
+    background-image: url(../images/background.png);
     background-repeat: repeat-x;
     animation: slideRight 600s infinite linear;
     width: 1000px;
