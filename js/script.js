@@ -27,7 +27,7 @@ function start() {
     gameOver.innerHTML = "";
     restart.style.visibility = "hidden";
     dino.style.bottom = dinoPositionY + "px";
-    dino.style.backgroundImage = "url(images/dino.png)";
+    dino.style.backgroundImage = "url(images/dino-running.gif)";
     background.style.webkitAnimationPlayState = "running";
 
     isRunning = true;
