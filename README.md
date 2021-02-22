@@ -6,6 +6,6 @@ Este projeto busca cumprir o desafio proposto no bootcamp [GFT START_UNI 2021](h
 
 O objetivo é criar uma cópia do jogo do dinossauro (T-Rex game) do navegador Google Chrome utilizando html, css e javascript.
 
-Para jogar abra o arquivo [index.html](Assets/Source/index.html).
+Para jogar acesse https://andreick.github.io/dino-game.
 
 ![Captura de tela do fim de jogo](../media/images/game-over.PNG?raw=true)
